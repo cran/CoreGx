@@ -2,8 +2,8 @@ Package: CoreGx
 Type: Package
 Title: Classes and Functions to Serve as the Basis for Other 'Gx'
         Packages
-Version: 0.1.0
-Date: 2019-05-29
+Version: 0.1.1
+Date: 2019-12-19
 Authors@R: c(
     person("Petr","Smirnov", email = "petr.smirnov@uhnresearch.ca", role = c("aut")),
     person("Ian","Smith", email = "ianc.smith@mail.utoronto.ca", role = c("aut")),
@@ -26,19 +26,20 @@ Description: A collection of functions and classes which serve as the foundation
       Lupien, M., Goldenberg, A. (2015) <doi:10.1093/bioinformatics/btv723>.
     Manem, V., Labie, M., Smirnov, P., Kofia, V., Freeman, M., Koritzinksy, M.,
       Abazeed, M., Haibe-Kains, B., Bratman, S. (2018) <doi:10.1101/449793>.
+biocViews: Software, Pharmacogenomics
 Encoding: UTF-8
 LazyData: true
-Depends: R (>= 3.5.0)
+Depends: R (>= 3.6.0)
 Imports: lsa, methods, piano, Biobase, stats, rlang
 Suggests: PharmacoGx
 License: GPL-3
 RoxygenNote: 6.1.1
 NeedsCompilation: no
-Packaged: 2019-06-14 13:45:55 UTC; chris
+Packaged: 2019-12-19 21:45:27 UTC; ceeles
 Author: Petr Smirnov [aut],
   Ian Smith [aut],
   Christopher Eeles [aut],
   Benjamin Haibe-Kains [aut, cre]
 Maintainer: Benjamin Haibe-Kains <benjamin.haibe.kains@utoronto.ca>
 Repository: CRAN
-Date/Publication: 2019-06-14 15:10:07 UTC
+Date/Publication: 2019-12-19 23:20:09 UTC

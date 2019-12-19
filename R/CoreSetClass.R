@@ -121,8 +121,8 @@ CoreSet <-  function(name,
     annotation$call <- match.call()
     
     #molecularProfiles <- list("dna"=dna, "rna"=rna, "snp"=snp, "cnv"=cnv)
-    for (i in 1:length(molecularProfiles)){
-        if (class(molecularProfiles[[i]]) != "ExpressionSet"){
+    for (i in seq_len(length(molecularProfiles))){
+        if (!is(molecularProfiles[[i]], "ExpressionSet")) {
             stop(sprintf("Please provide the %s data as an ExpressionSet", names(molecularProfiles[i])))
         }else{
       Biobase::fData(molecularProfiles[[i]]) <- Biobase::fData(molecularProfiles[[i]])[rownames(Biobase::exprs(molecularProfiles[[i]])), , drop=FALSE]
@@ -130,9 +130,6 @@ CoreSet <-  function(name,
         }
     
     }
-    #if (class(cell)!="data.frame"){
-    #    stop("Please provide the cell line annotations as a data frame.")
-    #}
     
     sensitivity <- list()
     
@@ -911,7 +908,7 @@ updateCellId <- function(cSet, new.ids = vector("character")){
   
   perturbation.info <- array(0, dim=c(length(celln), length(drugn), length(cSet@molecularProfiles)), dimnames=list(celln, drugn, names((cSet@molecularProfiles))))
 
-    for (i in 1:length(cSet@molecularProfiles)) {
+    for (i in seq_len(length(cSet@molecularProfiles))) {
       if (nrow(Biobase::pData(cSet@molecularProfiles[[i]])) > 0 && all(is.element(c("cellid", "drugid"), colnames(Biobase::pData(cSet@molecularProfiles[[i]]))))) {
       tt <- table(Biobase::pData(cSet@molecularProfiles[[i]])[ , "cellid"], Biobase::pData(cSet@molecularProfiles[[i]])[ , "drugid"])
         perturbation.info[rownames(tt), colnames(tt), names(cSet@molecularProfiles)[i]] <- tt
@@ -942,7 +939,7 @@ updateCellId <- function(cSet, new.ids = vector("character")){
 checkCSetStructure <-
   function(cSet, plotDist=FALSE, result.dir=".") {
     if(!file.exists(result.dir) & plotDist) { dir.create(result.dir, showWarnings=FALSE, recursive=TRUE) }
-    for( i in 1:length(cSet@molecularProfiles)) {
+    for( i in seq_len(length(cSet@molecularProfiles))) {
       profile <- cSet@molecularProfiles[[i]]
       nn <- names(cSet@molecularProfiles)[i]
       if((Biobase::annotation(profile) == "rna" | Biobase::annotation(profile) == "rnaseq") & plotDist)
@@ -995,24 +992,17 @@ checkCSetStructure <-
     } else {
       print("unique.cellid which is curated cell id across data set should be a column of cell curation slot")
     }
-#     if("cellid" %in% colnames(cSet@cell)) {
-#       if(length(intersect(cSet@curation$cell$cellid, rownames(cSet@cell))) != nrow(cSet@cell)) {
-#         print("values of cellid column should be curated cell line ids")
-#       }
-#     } else {
-#       print("cellid which is curated cell id across data set should be a column of cell slot")
-#     }
     
     if(length(intersect(rownames(cSet@curation$cell), rownames(cSet@cell))) != nrow(cSet@cell)) {
       print("rownames of curation cell slot should be the same as cell slot (curated cell ids)")
     }
     
-    if(class(cSet@cell) != "data.frame") {
+    if(!is(cSet@cell, "data.frame")) {
       warning("cell slot class type should be dataframe")
     }
     if(cSet@datasetType %in% c("sensitivity", "both"))
     {
-      if(class(cSet@sensitivity$info) != "data.frame") {
+      if(!is(cSet@sensitivity$info, "data.frame")) {
         warning("sensitivity info slot class type should be dataframe")
       }
       if("cellid" %in% colnames(cSet@sensitivity$info)) {
@@ -1034,4 +1024,3 @@ checkCSetStructure <-
       }
     }
   }
-
